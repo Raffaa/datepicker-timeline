@@ -6,12 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
 
 /** Simple view to draw a colored and sized dot */
 public class DotView extends View {
@@ -55,7 +56,7 @@ public class DotView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, size / 2, paint);
+        canvas.drawCircle(getMeasuredWidth() / 2f, getMeasuredHeight() / 2f, size / 2f, paint);
     }
 
     public void setColor(@ColorInt int color) {

@@ -1,15 +1,16 @@
 package com.github.badoualy.datepicker;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
@@ -118,7 +119,7 @@ public class MonthView extends RecyclerView {
     public void centerOnPosition(int position) {
         if (getChildCount() == 0) {
             return;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        } else {
             if (!isLaidOut()) {
                 return;
             }
@@ -139,14 +140,14 @@ public class MonthView extends RecyclerView {
     void scrollToYearPosition(int year, int offsetYear) {
         if (getChildCount() == 0) {
             return;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        } else {
             if (!isLaidOut()) {
                 return;
             }
         }
         // Animate scroll
         layoutManager.scrollToPositionWithOffset(getPositionForDate(year + 1, 0),
-                                                 offsetYear + getMeasuredWidth() / 2 - getItemWidth() / 2);
+                offsetYear + getMeasuredWidth() / 2 - getItemWidth() / 2);
     }
 
     int getItemWidth() {
@@ -173,16 +174,31 @@ public class MonthView extends RecyclerView {
         return (12 * (year - startYear) + month) - startMonth;
     }
 
-    public void setOnMonthSelectedListener(OnMonthSelectedListener onMonthSelectedListener) {
-        this.onMonthSelectedListener = onMonthSelectedListener;
-    }
-
     public OnMonthSelectedListener getOnMonthSelectedListener() {
         return onMonthSelectedListener;
     }
 
+    public void setOnMonthSelectedListener(OnMonthSelectedListener onMonthSelectedListener) {
+        this.onMonthSelectedListener = onMonthSelectedListener;
+    }
+
     public int getMonthCount() {
         return monthCount;
+    }
+
+    void setMonthCount(int monthCount) {
+        if (this.monthCount == monthCount) {
+            return;
+        }
+
+        this.monthCount = monthCount;
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public int getDefaultColor() {
+        return defaultColor;
     }
 
     /**
@@ -192,11 +208,8 @@ public class MonthView extends RecyclerView {
         this.defaultColor = defaultColor;
     }
 
-    /**
-     * Color when month is selected
-     */
-    public void setColorSelected(int colorSelected) {
-        this.colorSelected = colorSelected;
+    public int getColorBeforeSelection() {
+        return colorBeforeSelection;
     }
 
     /**
@@ -206,16 +219,19 @@ public class MonthView extends RecyclerView {
         this.colorBeforeSelection = colorBeforeSelection;
     }
 
-    public int getDefaultColor() {
-        return defaultColor;
-    }
-
-    public int getColorBeforeSelection() {
-        return colorBeforeSelection;
-    }
-
     public int getColorSelected() {
         return colorSelected;
+    }
+
+    /**
+     * Color when month is selected
+     */
+    public void setColorSelected(int colorSelected) {
+        this.colorSelected = colorSelected;
+    }
+
+    public int getYearDigitCount() {
+        return yearDigitCount;
     }
 
     public void setYearDigitCount(int yearDigitCount) {
@@ -225,16 +241,12 @@ public class MonthView extends RecyclerView {
         this.yearDigitCount = yearDigitCount;
     }
 
-    public int getYearDigitCount() {
-        return yearDigitCount;
+    public boolean isYearOnNewLine() {
+        return yearOnNewLine;
     }
 
     public void setYearOnNewLine(boolean yearOnNewLine) {
         this.yearOnNewLine = yearOnNewLine;
-    }
-
-    public boolean isYearOnNewLine() {
-        return yearOnNewLine;
     }
 
     public void setFirstDate(int startYear, int startMonth) {
@@ -243,17 +255,6 @@ public class MonthView extends RecyclerView {
         selectedYear = startYear;
         selectedMonth = startMonth;
         selectedPosition = 0;
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    void setMonthCount(int monthCount) {
-        if (this.monthCount == monthCount) {
-            return;
-        }
-
-        this.monthCount = monthCount;
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
@@ -274,16 +275,27 @@ public class MonthView extends RecyclerView {
         setMonthCount(diffMonth + 1);
     }
 
+    public interface OnMonthSelectedListener {
+
+        void onMonthSelected(int year, int month, int index);
+    }
+
+    public interface DateLabelAdapter {
+
+        CharSequence getLabel(Calendar calendar, int index);
+    }
+
     private class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder> {
 
         MonthAdapter() {
 
         }
 
+        @NonNull
         @Override
         public MonthViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final View view = LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.mti_item_month, parent, false);
+                    .inflate(R.layout.mti_item_month, parent, false);
             return new MonthViewHolder(view);
         }
 
@@ -310,8 +322,8 @@ public class MonthView extends RecyclerView {
         MonthViewHolder(View root) {
             super(root);
 
-            indicator = (DotView) root.findViewById(R.id.mti_view_indicator);
-            lbl = (TextView) root.findViewById(R.id.mti_month_lbl);
+            indicator = root.findViewById(R.id.mti_view_indicator);
+            lbl = root.findViewById(R.id.mti_month_lbl);
 
             root.setOnClickListener(new OnClickListener() {
                 @Override
@@ -337,15 +349,5 @@ public class MonthView extends RecyclerView {
             indicator.setColor(color);
             indicator.setCircleSizeDp(selected ? 12 : 5);
         }
-    }
-
-    public interface OnMonthSelectedListener {
-
-        void onMonthSelected(int year, int month, int index);
-    }
-
-    public interface DateLabelAdapter {
-
-        CharSequence getLabel(Calendar calendar, int index);
     }
 }

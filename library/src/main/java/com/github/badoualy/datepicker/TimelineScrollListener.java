@@ -1,8 +1,8 @@
 package com.github.badoualy.datepicker;
 
-
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
 

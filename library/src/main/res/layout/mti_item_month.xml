@@ -12,7 +12,8 @@
     android:paddingLeft="@dimen/mti_month_lbl_padding_horizontal"
     android:paddingRight="@dimen/mti_month_lbl_padding_horizontal"
     android:paddingStart="@dimen/mti_month_lbl_padding_horizontal"
-    android:paddingTop="@dimen/mti_month_lbl_padding_vertical">
+    android:paddingTop="@dimen/mti_month_lbl_padding_vertical"
+    android:focusable="true">
 
     <com.github.badoualy.datepicker.DotView
         android:id="@+id/mti_view_indicator"

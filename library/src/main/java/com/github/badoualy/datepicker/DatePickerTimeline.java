@@ -6,11 +6,12 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 
@@ -131,7 +132,7 @@ public final class DatePickerTimeline extends LinearLayout implements MonthView.
         });
 
         timelineView.setSelectedDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                                     calendar.get(Calendar.DAY_OF_MONTH));
+                calendar.get(Calendar.DAY_OF_MONTH));
 
         if (followScroll) {
             timelineScrollListener = new TimelineScrollListener(monthView, timelineView);
@@ -151,12 +152,12 @@ public final class DatePickerTimeline extends LinearLayout implements MonthView.
         return timelineView.getSelectedDay();
     }
 
-    public void setOnDateSelectedListener(OnDateSelectedListener onDateSelectedListener) {
-        this.onDateSelectedListener = onDateSelectedListener;
-    }
-
     public OnDateSelectedListener getOnDateSelectedListener() {
         return onDateSelectedListener;
+    }
+
+    public void setOnDateSelectedListener(OnDateSelectedListener onDateSelectedListener) {
+        this.onDateSelectedListener = onDateSelectedListener;
     }
 
     public void setDateLabelAdapter(@Nullable MonthView.DateLabelAdapter dateLabelAdapter) {

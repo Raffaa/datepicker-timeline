@@ -2,15 +2,11 @@ package com.github.badoualy.datepicker;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 
+import androidx.core.content.ContextCompat;
+
 final class Utils {
-
-    private Utils() {
-
-    }
 
     static int getPrimaryColor(final Context context) {
         int color = context.getResources().getIdentifier("colorPrimary", "attr", context.getPackageName());
@@ -19,13 +15,9 @@ final class Utils {
             TypedValue t = new TypedValue();
             context.getTheme().resolveAttribute(color, t, true);
             color = t.data;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        } else {
             // If using native primaryColor (SDK >21)
             TypedArray t = context.obtainStyledAttributes(new int[]{android.R.attr.colorPrimary});
-            color = t.getColor(0, ContextCompat.getColor(context, R.color.mti_default_primary));
-            t.recycle();
-        } else {
-            TypedArray t = context.obtainStyledAttributes(new int[]{R.attr.colorPrimary});
             color = t.getColor(0, ContextCompat.getColor(context, R.color.mti_default_primary));
             t.recycle();
         }
@@ -40,13 +32,9 @@ final class Utils {
             TypedValue t = new TypedValue();
             context.getTheme().resolveAttribute(color, t, true);
             color = t.data;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        } else {
             // If using native primaryColor (SDK >21)
             TypedArray t = context.obtainStyledAttributes(new int[]{android.R.attr.colorPrimaryDark});
-            color = t.getColor(0, ContextCompat.getColor(context, R.color.mti_default_primary_dark));
-            t.recycle();
-        } else {
-            TypedArray t = context.obtainStyledAttributes(new int[]{R.attr.colorPrimaryDark});
             color = t.getColor(0, ContextCompat.getColor(context, R.color.mti_default_primary_dark));
             t.recycle();
         }

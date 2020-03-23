@@ -2,9 +2,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.6.1'
     }
 }
 
@@ -15,17 +16,14 @@ allprojects {
         maven {
             url "https://maven.google.com"
         }
+        google()
     }
 }
 
 // To avoid manually setting the same values in all Android modules, set the value on the root
 // project and then reference this from the modules
 ext {
-    compileSdkVersion = 26
+    compileSdkVersion = 29
     buildToolsVersion = "26.0.2"
     supportLibVersion = "26.1.0"
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1'
 }

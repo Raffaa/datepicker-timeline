@@ -10,7 +10,7 @@
     <!-- Timeline -->
     <dimen name="mti_timeline_width">50dp</dimen>
     <dimen name="mti_timeline_height">110dp</dimen>
-    <dimen name="mti_timeline_lbl_day_text">12dp</dimen>
-    <dimen name="mti_timeline_lbl_date_text">14dp</dimen>
+    <dimen name="mti_timeline_lbl_day_text">12sp</dimen>
+    <dimen name="mti_timeline_lbl_date_text">14sp</dimen>
     <dimen name="mti_timeline_lbl_value">12dp</dimen>
 </resources>

@@ -1,16 +1,17 @@
 package com.github.badoualy.datepicker;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
@@ -108,7 +109,7 @@ public class TimelineView extends RecyclerView {
     public void centerOnPosition(int position) {
         if (getChildCount() == 0) {
             return;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        } else {
             if (!isLaidOut()) {
                 return;
             }
@@ -120,13 +121,6 @@ public class TimelineView extends RecyclerView {
 
     public void centerOnSelection() {
         centerOnPosition(selectedPosition);
-    }
-
-    public void setSelectedPosition(int position) {
-        resetCalendar();
-        calendar.add(Calendar.DAY_OF_YEAR, position);
-        onDateSelected(position, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                       calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     public void setSelectedDate(int year, int month, int day) {
@@ -173,12 +167,19 @@ public class TimelineView extends RecyclerView {
         return selectedPosition;
     }
 
-    public void setOnDateSelectedListener(DatePickerTimeline.OnDateSelectedListener onDateSelectedListener) {
-        this.onDateSelectedListener = onDateSelectedListener;
+    public void setSelectedPosition(int position) {
+        resetCalendar();
+        calendar.add(Calendar.DAY_OF_YEAR, position);
+        onDateSelected(position, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     public DatePickerTimeline.OnDateSelectedListener getOnDateSelectedListener() {
         return onDateSelectedListener;
+    }
+
+    public void setOnDateSelectedListener(DatePickerTimeline.OnDateSelectedListener onDateSelectedListener) {
+        this.onDateSelectedListener = onDateSelectedListener;
     }
 
     public void setDateLabelAdapter(@Nullable MonthView.DateLabelAdapter dateLabelAdapter) {
@@ -267,7 +268,7 @@ public class TimelineView extends RecyclerView {
 
         // TODO: might now work for summer time...
         int dayDiff = (int) TimeUnit.DAYS.convert(lastDate.getTimeInMillis() - firstDate.getTimeInMillis(),
-                                                  TimeUnit.MILLISECONDS);
+                TimeUnit.MILLISECONDS);
 
         setDayCount(dayDiff + 1);
     }
@@ -289,10 +290,11 @@ public class TimelineView extends RecyclerView {
 
         }
 
+        @NonNull
         @Override
         public TimelineViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             final View view = LayoutInflater.from(parent.getContext())
-                                            .inflate(R.layout.mti_item_day, parent, false);
+                    .inflate(R.layout.mti_item_day, parent, false);
             return new TimelineViewHolder(view);
         }
 
@@ -310,8 +312,8 @@ public class TimelineView extends RecyclerView {
             boolean isToday = DateUtils.isToday(calendar.getTimeInMillis());
 
             holder.bind(position, year, month, day, dayOfWeek,
-                        dateLabelAdapter != null ? dateLabelAdapter.getLabel(calendar, position) : "",
-                        position == selectedPosition, isToday);
+                    dateLabelAdapter != null ? dateLabelAdapter.getLabel(calendar, position) : "",
+                    position == selectedPosition, isToday);
         }
 
         @Override
@@ -332,9 +334,9 @@ public class TimelineView extends RecyclerView {
         TimelineViewHolder(View root) {
             super(root);
 
-            lblDay = (TextView) root.findViewById(R.id.mti_timeline_lbl_day);
-            lblDate = (TextView) root.findViewById(R.id.mti_timeline_lbl_date);
-            lblValue = (TextView) root.findViewById(R.id.mti_timeline_lbl_value);
+            lblDay = root.findViewById(R.id.mti_timeline_lbl_day);
+            lblDate = root.findViewById(R.id.mti_timeline_lbl_date);
+            lblValue = root.findViewById(R.id.mti_timeline_lbl_value);
 
             lblDay.setTextColor(lblDayColor);
             lblDate.setTextColor(lblDateColor);
@@ -359,7 +361,7 @@ public class TimelineView extends RecyclerView {
             lblValue.setText(label);
 
             lblDate.setBackgroundResource(selected ? R.drawable.mti_bg_lbl_date_selected
-                                                   : (isToday ? R.drawable.mti_bg_lbl_date_today : 0));
+                    : (isToday ? R.drawable.mti_bg_lbl_date_today : 0));
             lblDate.setTextColor(selected || isToday ? lblDateSelectedColor : lblDateColor);
         }
     }
