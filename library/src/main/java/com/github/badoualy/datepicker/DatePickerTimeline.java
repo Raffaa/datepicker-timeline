@@ -72,7 +72,7 @@ public final class DatePickerTimeline extends LinearLayout implements MonthView.
                 .obtainStyledAttributes(attrs, R.styleable.DatePickerTimeline, defStyleAttr, 0);
         primaryColor = a.getColor(R.styleable.DatePickerTimeline_mti_primaryColor, primaryColor);
         primaryDarkColor = a.getColor(R.styleable.DatePickerTimeline_mti_primaryDarkColor, primaryDarkColor);
-        bgTimelineColor = a.getColor(R.styleable.DatePickerTimeline_mti_bgTimelineColor, bgTimelineColor);
+        bgTimelineColor = a.getColor(R.styleable.DatePickerTimeline_mti_bkgTimelineColor, bgTimelineColor);
         tabSelectedColor = a.getColor(R.styleable.DatePickerTimeline_mti_tabSelectedColor, tabSelectedColor);
         tabBeforeSelectionColor = a
                 .getColor(R.styleable.DatePickerTimeline_mti_tabBeforeSelectionColor, tabBeforeSelectionColor);

@@ -24,6 +24,6 @@ allprojects {
 // project and then reference this from the modules
 ext {
     compileSdkVersion = 29
-    buildToolsVersion = "26.0.2"
+    buildToolsVersion = "28.0.3"
     supportLibVersion = "26.1.0"
 }

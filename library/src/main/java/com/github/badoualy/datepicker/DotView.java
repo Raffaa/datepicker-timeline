@@ -14,7 +14,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.core.content.ContextCompat;
 
-/** Simple view to draw a colored and sized dot */
+/**
+ * Simple view to draw a colored and sized dot
+ */
 public class DotView extends View {
 
     private Paint paint;
